@@ -1,6 +1,102 @@
-<!-- step 1:laravel new project
-step 2: in env file add database
-step 3: create a controller for the project
-step 4: create a model for the project with migration file
-step 5:
+<!--
+Check weather php and compser is install or not
+ i) php --version
+ ii) composer
+
+1) To create a new project:
+    composer create-project laravel/laravel project_name or laravel new project_name
+
+    composer: This refers to the Composer package manager, which is a tool for managing dependencies in PHP projects.
+
+    create-project: This is a Composer command that allows you to create a new project based on a specific package.
+
+    laravel/laravel: This is the package that we want to use as the basis for our new project. In this case, we're using the official Laravel package, which provides the core functionality of the Laravel framework.
+
+    example-app: This is the name of the directory that will be created for our new Laravel application. You can replace "example-app" with any name you like.
+
+2) To run project in web: php artisan serve
+
+3) TO make Controller:php artisan make:controller UserController
+
+4) TO make model:php artisan make:model Usermodel
+5) To create model and migration file:php artisan make:model userModel -m
+   Note: -m create migration file
+   or to create migration file manually
+   php artisan make:migration userModel
+
+6)create a database and change the name of database in .env file
+    Note:unable to migrate table untill database name not change in .env file
+
+7) To migrate table: php artisan migrate
+   Note:
+      1) TO delete or remove all migrated table use: migrate:reset
+      2) TO undo the migration table use: 1) php artisan migrate:rollback
+                                         2) php artisan migrate:rollback --step=3
+
+      Note:
+           $table->string('email')->unique(); string('email') bring varchar(255)
+           $table->string('email')->default(null); is the way to make this column null by default.
+
+8) Assets must be in public directory i.e: images or css or js or favicon and etc
+   1) To print we use {{}}
+   2) To load css,favicon,js i.e: {{assets('favicon.ico or css/style.css or js/script.js')}}
+   3) To navigate in <a> tags we use href="{{url('home')}}".
+   4)dd($request->all()); is used to print data as a json format
+
+9) We navigate all the file,controller and model from routes\web.php.
+   1)For staticpage route
+     i)Route::get('/home', view : 'home')->name('Home'));
+   2) For dynamin or functional foutr through controller
+     i) Route::get ('/register',[UserController::class,'register']);
+     ii) Route::post ('/register-user',[UserController::class,'registerUser'])->name('register-user');
+g
+10) for validation
+     'image'=>sometime|jpg,png,gif,jpeg
+
+11) To upload image
+
+    In controller : use Illuminate\Support\Facades\File;
+
+    if($request->image){
+      $imageExtension=$request->image->getClientOriginalExtension();
+      $file =time().'.'$imageExtension;
+      $request->image->move(public_path().'/images/upload/', $file);
+
+      $image->image=$file;
+      $image->save();
+    }
+
+12) to use pagination
+      i) Go to App\Provider\AppServiceProvider
+      ii) include this in AppServiceProvider:
+            use Illuminate\Pagination\Paginator;
+      iii) In function boot() {
+         Paginator::useBootstrapFive();
+      }
+
+13) Actions Handled By the Controller
+HTTP Verb   	Path (URL)     	   Action (Method)	         Route Name
+GET	         /photo	               index	                  photo.index
+GET	         /photo/create	         create	               photo.create
+POST         	/photo	               store	                  photo.store
+GET	         /photo/{photo}	         show	                  photo.show
+GET	         /photo/{photo}/edit	   edit	                  photo.edit
+PUT/PATCH	   /photo/{photo}	         update	               photo.update
+DELETE	      /photo/{photo}	         destroy	               photo.destroy
+
+10) To make middleware:php artisan make:middleware file_name(like autchCheck)
+   note:middleware helps to remove session error direct do to dashboard
+
+
+When you are cloning a Laravel project from GitHub, you have to :
+   i) Run composer install on your cmd or terminal
+   ii) Copy .env.example file to .env on the root folder
+   iii) Open your .env file and change the database name (DB_DATABASE) to whatever you have, username (DB_USERNAME) and password (DB_PASSWORD) field correspond to your configuration
+   iv) Run php artisan key:generate
+   v) Run php artisan migrate
+   vi) Run php artisan serve
+   vii) Go to http://localhost:8000/
+   and also run
+   php artisan optimize
+
 -->
